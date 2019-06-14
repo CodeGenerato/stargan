@@ -30,29 +30,37 @@ class CelebA(data.Dataset):
 
     def preprocess(self):
         """Preprocess the CelebA attribute file."""
-        lines = [line.rstrip() for line in open(self.attr_path, 'r')]
-        all_attr_names = lines[1].split()
-        for i, attr_name in enumerate(all_attr_names):
-            self.attr2idx[attr_name] = i
-            self.idx2attr[i] = attr_name
+        # lines = [line.rstrip() for line in open(self.attr_path, 'r')]
+        # all_attr_names = lines[1].split()
+        # for i, attr_name in enumerate(all_attr_names):
+        #     self.attr2idx[attr_name] = i
+        #     self.idx2attr[i] = attr_name
 
-        lines = lines[2:]
+        # read all file names, shuffle and create filename, label pairs
+        file_name_list = os.listdir(self.image_dir)
         random.seed(1234)
-        random.shuffle(lines)
-        for i, line in enumerate(lines):
-            split = line.split()
-            filename = split[0]
-            values = split[1:]
-
-            label = []
-            for attr_name in self.selected_attrs:
-                idx = self.attr2idx[attr_name]
-                label.append(values[idx] == '1')
+        random.shuffle(file_name_list)
+        for i, file_name in enumerate(file_name_list):
+            parts = file_name.split("-")
+            label = float(parts[0])
+            img_name = file_name
 
             if (i+1) < 2000:
-                self.test_dataset.append([filename, label])
+                self.test_dataset.append([img_name, label])
             else:
-                self.train_dataset.append([filename, label])
+                self.train_dataset.append([img_name, label])
+
+        # lines = lines[2:]
+
+        # for i, line in enumerate(lines):
+        #     split = line.split()
+        #     filename = split[0]
+        #     values = split[1:]
+
+        #     label = []
+        #     for attr_name in self.selected_attrs:
+        #         idx = self.attr2idx[attr_name]
+        #         label.append(values[idx] == '1')
 
         print('Finished preprocessing the CelebA dataset...')
 
@@ -61,20 +69,21 @@ class CelebA(data.Dataset):
         dataset = self.train_dataset if self.mode == 'train' else self.test_dataset
         filename, label = dataset[index]
         image = Image.open(os.path.join(self.image_dir, filename))
-        return self.transform(image), torch.FloatTensor(label)
+        a=torch.FloatTensor([label])
+        return self.transform(image), a
 
     def __len__(self):
         """Return the number of images."""
         return self.num_images
 
 
-def get_loader(image_dir, attr_path, selected_attrs, crop_size=178, image_size=128, 
+def get_loader(image_dir, attr_path, selected_attrs, crop_size=178, image_size=128,
                batch_size=16, dataset='CelebA', mode='train', num_workers=1):
     """Build and return a data loader."""
     transform = []
     if mode == 'train':
         transform.append(T.RandomHorizontalFlip())
-    transform.append(T.CenterCrop(crop_size))
+    # transform.append(T.CenterCrop(crop_size))
     transform.append(T.Resize(image_size))
     transform.append(T.ToTensor())
     transform.append(T.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5)))
@@ -83,10 +92,10 @@ def get_loader(image_dir, attr_path, selected_attrs, crop_size=178, image_size=1
     if dataset == 'CelebA':
         dataset = CelebA(image_dir, attr_path, selected_attrs, transform, mode)
     elif dataset == 'RaFD':
-        dataset = ImageFolder(image_dir, transform)
+        raise AttributeError("RaFD not supported")
 
     data_loader = data.DataLoader(dataset=dataset,
                                   batch_size=batch_size,
-                                  shuffle=(mode=='train'),
+                                  shuffle=(mode == 'train'),
                                   num_workers=num_workers)
     return data_loader
