@@ -148,13 +148,15 @@ class Solver(object):
 
     def create_labels(self, c_org, c_dim=5, dataset='CelebA', selected_attrs=None):
         """Generate target domain labels for debugging and testing."""
+      
         c_trg_list = []
-        for i in range(1,7):
-            if dataset == 'CelebA':
-                c_trg = c_org.clone()
-                c_trg[:, 0] = i
-
+        for i in (0,20,40,77,81,100,120,140,160):
+            c_trg = c_org.clone()
+            c_trg[:,:] = 0
+            c_trg[:, i] = 1
+                
             c_trg_list.append(c_trg.to(self.device))
+
         return c_trg_list
 
     def classification_loss(self, logit, target, dataset='CelebA'):
