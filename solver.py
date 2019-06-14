@@ -150,7 +150,7 @@ class Solver(object):
         """Generate target domain labels for debugging and testing."""
       
         c_trg_list = []
-        for i in (0,20,40,77,81,100,120,140,160):
+        for i in range(c_dim):
             c_trg = c_org.clone()
             c_trg[:,:] = 0
             c_trg[:, i] = 1
