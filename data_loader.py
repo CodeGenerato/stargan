@@ -42,7 +42,7 @@ class CelebA(data.Dataset):
         random.shuffle(file_name_list)
         for i, file_name in enumerate(file_name_list):
             parts = file_name.split("-")
-            label = float(parts[0])
+            label = int(parts[0])-1
             img_name = file_name
 
             if (i+1) < 2000:
@@ -69,7 +69,9 @@ class CelebA(data.Dataset):
         dataset = self.train_dataset if self.mode == 'train' else self.test_dataset
         filename, label = dataset[index]
         image = Image.open(os.path.join(self.image_dir, filename))
-        a=torch.FloatTensor([label])
+
+        a=torch.zeros(163, dtype=torch.float32)
+        a[label]=1
         return self.transform(image), a
 
     def __len__(self):
