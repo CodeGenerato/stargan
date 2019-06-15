@@ -47,18 +47,24 @@ class CelebA(data.Dataset):
         #139 ??     y
         #141 lotus -
         #142 landrover y
+        #57 RR
+        #78 audi
+        #95 skoda
         #77 merceds y
         #81 bmw y
         self.attr2idx[77]=0
         self.attr2idx[81]=1
-        self.attr2idx[117]=2
-        self.attr2idx[139]=3
-        self.attr2idx[142]=4
+        self.attr2idx[78]=2
+        self.attr2idx[95]=3
+        self.attr2idx[57]=4
 
         for i, file_name in enumerate(file_name_list):
+            if file_name.startswith('X_'):
+                continue
+            
             parts = file_name.split("-")
             label = int(parts[0])
-            if label not in (77,81,117,139,142):
+            if label not in (77,81,78,95,57):
                 continue
             img_name = file_name
            
