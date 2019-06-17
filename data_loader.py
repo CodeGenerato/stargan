@@ -56,7 +56,7 @@ class CelebA(data.Dataset):
         self.attr2idx[81]=1
         self.attr2idx[78]=2
         self.attr2idx[95]=3
-        self.attr2idx[57]=4
+        self.attr2idx[111]=4
 
         for i, file_name in enumerate(file_name_list):
             if file_name.startswith('X_'):
@@ -64,7 +64,7 @@ class CelebA(data.Dataset):
             
             parts = file_name.split("-")
             label = int(parts[0])
-            if label not in (77,81,78,95,57):
+            if label not in (77,81,78,95,111):
                 continue
             img_name = file_name
            
