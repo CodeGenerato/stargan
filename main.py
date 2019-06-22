@@ -23,7 +23,7 @@ def main(config):
         os.makedirs(config.result_dir)
 
     # Data loader.
-    data_loader = get_loader(config.image_dir, config.crop_size, config.image_size, config.batch_size,
+    data_loader = get_loader(config.domains,config.image_dir, config.crop_size, config.image_size, config.batch_size,
                                     config.mode, config.num_workers)
 
     # Solver for training and testing StarGAN.
@@ -38,7 +38,23 @@ def main(config):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
+   
     # Model configuration.
+    
+    # 112 ferrari 
+    # 117 maserati 
+    # 141 lotus 
+    # 142 landrover 
+    # 57 RR
+    # 78 audi
+    # 95 skoda
+    # 77 merceds 
+    # 81 bmw 
+    # 11 volvo
+    
+    parser.add_argument('--domains', '--list', nargs='+', help='domains of car data set',
+                        default=[77,81,78,95,11]) 
+
     parser.add_argument('--c_dim', type=int, default=5, help='dimension of domain labels (1st dataset)')
     parser.add_argument('--crop_size', type=int, default=128, help='crop size dataset')
     parser.add_argument('--image_size', type=int, default=128, help='image resolution')
@@ -83,5 +99,6 @@ if __name__ == '__main__':
     parser.add_argument('--lr_update_step', type=int, default=1000)
 
     config = parser.parse_args()
+    
     print(config)
     main(config)

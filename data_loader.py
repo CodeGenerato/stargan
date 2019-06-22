@@ -10,7 +10,7 @@ import random
 class CarDataset(data.Dataset):
     """Dataset class for the CelebA dataset."""
 
-    def __init__(self, image_dir, transform, mode):
+    def __init__(self, domains, image_dir, transform, mode):
         """Initialize and preprocess the CelebA dataset."""
         self.image_dir = image_dir
         self.transform = transform
@@ -19,7 +19,10 @@ class CarDataset(data.Dataset):
         self.test_dataset = []
         self.attr2idx = {}
         self.idx2attr = {}
+        self.domains=domains
+        
         self.preprocess()
+        
 
         if mode == 'train':
             self.num_images = len(self.train_dataset)
@@ -32,22 +35,9 @@ class CarDataset(data.Dataset):
         file_name_list = os.listdir(self.image_dir)
         random.seed(1234)
         random.shuffle(file_name_list)
-
-        
-        # 112 ferrari 
-        # 117 maserati 
-        # 141 lotus 
-        # 142 landrover 
-        # 57 RR
-        # 78 audi
-        # 95 skoda
-        # 77 merceds 
-        # 81 bmw 
-        self.attr2idx[77]=0
-        self.attr2idx[81]=1
-        self.attr2idx[78]=2
-        self.attr2idx[95]=3
-        self.attr2idx[111]=4
+      
+        for i,d in enumerate(self.domains):
+              self.attr2idx[d]=i          
 
         for i, file_name in enumerate(file_name_list):
             if (file_name.startswith('X_')):
@@ -55,7 +45,7 @@ class CarDataset(data.Dataset):
             
             parts = file_name.split("-")
             label = int(parts[0])
-            if label not in (77,81,78,95,111):
+            if label not in self.domains:
                 continue
             img_name = file_name
            
@@ -69,8 +59,7 @@ class CarDataset(data.Dataset):
         filename, label = dataset[index]
         image = Image.open(os.path.join(self.image_dir, filename))
         
-        #TODO magic num
-        encoded_lab=torch.zeros(5, dtype=torch.float32)
+        encoded_lab=torch.zeros(len(self.domains), dtype=torch.float32)
         encoded_lab[label]=1
         return self.transform(image), encoded_lab
 
@@ -79,7 +68,7 @@ class CarDataset(data.Dataset):
         return self.num_images
 
 
-def get_loader(image_dir, crop_size=178, image_size=128,
+def get_loader(domains,image_dir, crop_size=178, image_size=128,
                batch_size=16, mode='train', num_workers=1):
     """Build and return a data loader."""
     transform = []
@@ -91,7 +80,7 @@ def get_loader(image_dir, crop_size=178, image_size=128,
     transform.append(T.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5)))
     transform = T.Compose(transform)
 
-    dataset = CarDataset(image_dir, transform, mode)
+    dataset = CarDataset(domains,image_dir, transform, mode)
     data_loader = data.DataLoader(dataset=dataset,
                                   batch_size=batch_size,
                                   shuffle=(mode == 'train'),
