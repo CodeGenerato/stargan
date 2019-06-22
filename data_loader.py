@@ -5,6 +5,7 @@ from PIL import Image
 import torch
 import os
 import random
+import utils
 
 
 class CarDataset(data.Dataset):
@@ -20,7 +21,12 @@ class CarDataset(data.Dataset):
         self.attr2idx = {}
         self.idx2attr = {}
         self.domains=domains
-        
+        self.sample_count = {}
+
+        self.valid_set_size=2
+        self.valid_set_dir="./validation_set"
+        utils.create_empty_dir(self.valid_set_dir)
+
         self.preprocess()
         
 
@@ -30,7 +36,7 @@ class CarDataset(data.Dataset):
             self.num_images = len(self.test_dataset)
 
     def preprocess(self):
-        """Preprocess the CelebA attribute file."""
+        """Preprocess the attribute file."""
       
         file_name_list = os.listdir(self.image_dir)
         random.seed(1234)
@@ -48,10 +54,32 @@ class CarDataset(data.Dataset):
             if label not in self.domains:
                 continue
             img_name = file_name
-           
-            self.train_dataset.append([img_name, self.attr2idx[label]])
 
-        print('Finished preprocessing the CelebA dataset...')
+            count=self.get_sample_count(label)
+            if count<self.valid_set_size:
+                # create holdout set on the fly
+                utils.copy_file(self.image_dir,self.valid_set_dir,img_name)
+            else:
+                self.train_dataset.append([img_name, self.attr2idx[label]])
+                
+            self.increment_sample_count(label)
+
+        print("Sample count per domain: "+str(self.sample_count)+" (including holdout set, holdout size per domain is: "+str(self.valid_set_size)+")")
+        print('Finished preprocessing the dataset...')
+
+    def increment_sample_count(self,label):
+        if label not in self.sample_count:
+            self.sample_count[label]=0
+        
+        self.sample_count[label]=self.sample_count[label]+1
+
+    def get_sample_count(self,label):
+        if label not in self.sample_count:
+            return 0
+        else:
+            return self.sample_count[label]
+
+   
 
     def __getitem__(self, index):
         """Return one image and its corresponding attribute label."""
