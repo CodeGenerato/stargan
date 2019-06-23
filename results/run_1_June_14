@@ -1,0 +1,8 @@
+DESCRIPTION: First Run using ResizedDataset
+Domains: Domains were not discussed and set by Nico
+Cropped to bounding boxes given by the data set, resized to 256
+
+RESULT IMAGES:
+Google drive folder: run1
+RESULT MODELS:
+run1 (to be moved to server)

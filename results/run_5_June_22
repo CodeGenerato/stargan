@@ -1,8 +1,8 @@
-DESCRIPTION:
+DESCRIPTION: Using Enhanced Dataset
 Domains: (BMW, Mercedes, Audi, Skoda, Volvo)
 Cropped to extended bounding boxes preserving aspect ratios of cars, resized to 256
-
+Second removal of cars.
 RESULT IMAGES:
-
+Google drive folder: run5
 RESULT MODELS:
-
+run5 (to be moved to server)

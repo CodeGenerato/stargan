@@ -1,10 +1,8 @@
-DESCRIPTION:
+DESCRIPTION: Restricted domain on Resized Dataset to compare with run2
 Domains: (BMW, Mercedes, Audi, Skoda, Volvo)
 Cropped to extended bounding boxes preserving aspect ratios of cars, resized to 256
-Removed inconsistent cars (e.g. concept cars, imgs with wrong viewpoint) per domain 
-Additional data augumentation: rotation, color jitter
 
 RESULT IMAGES:
-
+Google drive folder: run4
 RESULT MODELS:
-
+run3 (to be moved to server)
