@@ -1,7 +1,7 @@
 DESCRIPTION: Using EnhancedDataset
 Domains: Domains were not discussed and set by Nico
 Cropped to extended bounding boxes preserving aspect ratios of cars, resized to 256
-First removal of cars.
+Removed inconsistent imgs from domains BMW and Mercedes
 RESULT IMAGES:
 Google drive folder: run2
 RESULT MODELS:
