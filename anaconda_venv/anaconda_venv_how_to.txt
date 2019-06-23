@@ -1,0 +1,9 @@
+anaconda and virtual environments
+https://uoa-eresearch.github.io/eresearch-cookbook/recipe/2014/11/20/conda/
+
+anaconda export requirements:
+activate the env then:
+conda env export > environment.yaml
+
+create from env file:
+conda env create -f environment.yml
