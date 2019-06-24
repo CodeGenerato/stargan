@@ -4,9 +4,24 @@ from solver import Solver
 from data_loader import get_loader
 from torch.backends import cudnn
 
+import torchvision
+import matplotlib.pyplot as plt
+import numpy as np
+
 
 def str2bool(v):
     return v.lower() in ('true')
+
+#visualize one iteration of Dataloader
+
+def visualise_dataAug(data_loader) :
+    train_iter = iter(data_loader)
+    print(type(train_iter))
+    images, labels = train_iter.next()
+    grid = torchvision.utils.make_grid(images)
+    plt.imshow(grid.numpy().transpose((1, 2, 0)))
+    plt.axis('off')
+    plt.show()
 
 def main(config):
     # For fast training.
@@ -25,7 +40,10 @@ def main(config):
     # Data loader.
     data_loader = get_loader(config.domains,config.image_dir, config.crop_size, config.image_size, config.batch_size,
                                     config.mode, config.num_workers)
-
+    
+    # Visualize Data Augmentation ######
+    #visualise_dataAug(data_loader)
+    
     # Solver for training and testing StarGAN.
     solver = Solver(data_loader, config)
 
@@ -33,7 +51,6 @@ def main(config):
         solver.train()
     elif config.mode == 'test':
         solver.test()
-      
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -86,7 +103,7 @@ if __name__ == '__main__':
     parser.add_argument('--use_tensorboard', type=str2bool, default=True)
 
     # Directories.
-    parser.add_argument('--image_dir', type=str, default='/home/nico/Dokumente/Entwicklung/Uni/HLCV_Data/comp_cars/ResizedData')
+    parser.add_argument('--image_dir', type=str, default='/media/shadowwalker/DATA/comp-cars/dataset/data/test')
     parser.add_argument('--log_dir', type=str, default='stargan/logs')
     parser.add_argument('--model_save_dir', type=str, default='stargan/models')
     parser.add_argument('--sample_dir', type=str, default='stargan/samples')

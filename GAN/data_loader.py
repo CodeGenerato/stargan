@@ -100,8 +100,10 @@ def get_loader(domains,image_dir, crop_size=178, image_size=128,
                batch_size=16, mode='train', num_workers=1):
     """Build and return a data loader."""
     transform = []
+    
+    #data Augmentation with required transformations
     if mode == 'train':
-        transform.append(T.RandomHorizontalFlip())
+        transform.extend([T.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.1), T.RandomHorizontalFlip(), T.RandomAffine(degrees = 10)])
     # transform.append(T.CenterCrop(crop_size))
     transform.append(T.Resize(image_size))
     transform.append(T.ToTensor())
@@ -114,3 +116,5 @@ def get_loader(domains,image_dir, crop_size=178, image_size=128,
                                   shuffle=(mode == 'train'),
                                   num_workers=num_workers)
     return data_loader
+
+

@@ -1,3 +1,10 @@
+###################################################
+#  This file does the preprocessing of the input  #
+#  compCar Dataset. It iteratively selects each   #
+#  image, crops the bounding box and saves the    #
+#  result in the required folder.                 #
+###################################################
+
 import os
 import sys
 from PIL import Image
