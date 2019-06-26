@@ -11,29 +11,27 @@ import utils
 class CarDataset(data.Dataset):
     """Dataset class for the CelebA dataset."""
 
-    def __init__(self, domains, image_dir, transform, mode):
+    def __init__(self, domains, image_dir, transform, hold_out_size):
         """Initialize and preprocess the CelebA dataset."""
         self.image_dir = image_dir
         self.transform = transform
-        self.mode = mode
-        self.train_dataset = []
-        self.test_dataset = []
+        self.dataset = []
         self.attr2idx = {}
         self.idx2attr = {}
         self.domains=domains
         self.sample_count = {}
 
-        self.valid_set_size=2
-        self.valid_set_dir="./validation_set"
-        utils.create_empty_dir(self.valid_set_dir)
-
+      
+        self.valid_set_size=hold_out_size
+        if self.valid_set_size >0:
+            self.valid_set_dir="./validation_set"
+            utils.create_empty_dir(self.valid_set_dir)
+            
         self.preprocess()
         
-
-        if mode == 'train':
-            self.num_images = len(self.train_dataset)
-        else:
-            self.num_images = len(self.test_dataset)
+        self.num_images = len(self.dataset)
+      
+            
 
     def preprocess(self):
         """Preprocess the attribute file."""
@@ -60,7 +58,7 @@ class CarDataset(data.Dataset):
                 # create holdout set on the fly
                 utils.copy_file(self.image_dir,self.valid_set_dir,img_name)
             else:
-                self.train_dataset.append([img_name, self.attr2idx[label]])
+                self.dataset.append([img_name, self.attr2idx[label]])
                 
             self.increment_sample_count(label)
 
@@ -83,7 +81,7 @@ class CarDataset(data.Dataset):
 
     def __getitem__(self, index):
         """Return one image and its corresponding attribute label."""
-        dataset = self.train_dataset if self.mode == 'train' else self.test_dataset
+        dataset= self.dataset
         filename, label = dataset[index]
         image = Image.open(os.path.join(self.image_dir, filename))
         
@@ -110,7 +108,8 @@ def get_loader(domains,image_dir, crop_size=178, image_size=128,
     transform.append(T.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5)))
     transform = T.Compose(transform)
 
-    dataset = CarDataset(domains,image_dir, transform, mode)
+    hold_out_size= 2 if mode == 'train' else 0
+    dataset = CarDataset(domains,image_dir, transform, hold_out_size=hold_out_size)
     data_loader = data.DataLoader(dataset=dataset,
                                   batch_size=batch_size,
                                   shuffle=(mode == 'train'),
