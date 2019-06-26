@@ -6,6 +6,8 @@ import torch
 import os
 import random
 import utils
+import numpy as np
+from matplotlib import colors
 
 
 class CarDataset(data.Dataset):
@@ -77,7 +79,32 @@ class CarDataset(data.Dataset):
         else:
             return self.sample_count[label]
 
-   
+    def hsv_color_change(self,img,hshift):
+        color_shift=random.uniform(-hshift,hshift)
+        
+        np_img=np.array(img)
+        hsv=colors.rgb_to_hsv(np_img/255)
+        hsv=np.add(hsv,np.array([color_shift,0,0]))
+        hsv=np.mod(hsv,1+np.finfo(float).eps)
+        rgb=colors.hsv_to_rgb(hsv)*255
+        rgb=np.around(rgb)
+       
+        return Image.fromarray(rgb.astype('uint8'))
+
+        # easy but slow:
+        #color_shift=random.randint(-hshift,hshift)
+        #hsv_img= img.convert('HSV')
+        # for x in range(0, hsv_img.width - 1):
+        #     for y in range(0,  hsv_img.height - 1):
+        #         color=list(hsv_img.getpixel( (x,y) ))
+        #         color[0]+=color_shift
+        #         if(color[0] > 255):
+        #             color[0]-=255
+        #         if(color[0] <0):
+        #             color[0]+=255
+        #         hsv_img.putpixel( (x,y), tuple(color))
+
+        #return hsv_img.convert('RGB')
 
     def __getitem__(self, index):
         """Return one image and its corresponding attribute label."""
@@ -87,6 +114,9 @@ class CarDataset(data.Dataset):
         
         encoded_lab=torch.zeros(len(self.domains), dtype=torch.float32)
         encoded_lab[label]=1
+        image=self.hsv_color_change(image,0.5)
+        #im.save(self.image_dir+"/testimg.jpg")
+        #image.save(self.image_dir+"/testimg2.jpg")
         return self.transform(image), encoded_lab
 
     def __len__(self):
