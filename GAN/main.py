@@ -68,9 +68,12 @@ if __name__ == '__main__':
     # 77 merceds 
     # 81 bmw 
     # 11 volvo
+    # 162
+    # 158 citroen
+    # 157 chevrolet
     
     parser.add_argument('--domains', '--list', nargs='+', help='domains of car data set',
-                        default=[77,81,78,95,11]) 
+                        default=[77,81,78,95,158]) 
 
     parser.add_argument('--c_dim', type=int, default=5, help='dimension of domain labels (1st dataset)')
     parser.add_argument('--crop_size', type=int, default=128, help='crop size dataset')
@@ -103,7 +106,7 @@ if __name__ == '__main__':
     parser.add_argument('--use_tensorboard', type=str2bool, default=True)
 
     # Directories.
-    parser.add_argument('--image_dir', type=str, default='/media/shadowwalker/DATA/comp-cars/dataset/data/test')
+    parser.add_argument('--image_dir', type=str, default='/home/nico/Dokumente/Entwicklung/Uni/HLCV_Data/comp_cars/ResizedData')
     parser.add_argument('--log_dir', type=str, default='stargan/logs')
     parser.add_argument('--model_save_dir', type=str, default='stargan/models')
     parser.add_argument('--sample_dir', type=str, default='stargan/samples')
