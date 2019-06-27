@@ -5,6 +5,8 @@ data
 *model.ckpt
 *datasets/
 output
+outputs
+.idea
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
