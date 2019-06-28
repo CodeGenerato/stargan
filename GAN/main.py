@@ -19,6 +19,7 @@ def visualise_dataAug(data_loader) :
     print(type(train_iter))
     images, labels = train_iter.next()
     grid = torchvision.utils.make_grid(images)
+    #TODO denormalization
     plt.imshow(grid.numpy().transpose((1, 2, 0)))
     plt.axis('off')
     plt.show()

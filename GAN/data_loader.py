@@ -114,7 +114,7 @@ class CarDataset(data.Dataset):
         
         encoded_lab=torch.zeros(len(self.domains), dtype=torch.float32)
         encoded_lab[label]=1
-        image=self.hsv_color_change(image,0.5)
+        #image=self.hsv_color_change(image,0.5)
         #im.save(self.image_dir+"/testimg.jpg")
         #image.save(self.image_dir+"/testimg2.jpg")
         return self.transform(image), encoded_lab
@@ -130,6 +130,7 @@ def get_loader(domains,image_dir, crop_size=178, image_size=128,
     transform = []
     
     #data Augmentation with required transformations
+    #transform.extend([T.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.4, hue=0.5), T.RandomHorizontalFlip(), T.RandomAffine(degrees = 3)])
     if mode == 'train':
         transform.extend([T.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.1), T.RandomHorizontalFlip(), T.RandomAffine(degrees = 10)])
     # transform.append(T.CenterCrop(crop_size))
