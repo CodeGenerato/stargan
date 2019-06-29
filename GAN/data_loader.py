@@ -22,6 +22,7 @@ class CarDataset(data.Dataset):
         self.idx2attr = {}
         self.domains=domains
         self.sample_count = {}
+        self.img_cache = {}
 
       
         self.valid_set_size=hold_out_size
@@ -110,8 +111,16 @@ class CarDataset(data.Dataset):
         """Return one image and its corresponding attribute label."""
         dataset= self.dataset
         filename, label = dataset[index]
-        image = Image.open(os.path.join(self.image_dir, filename))
         
+        path=os.path.join(self.image_dir, filename)
+        if path not in self.img_cache:
+            image = Image.open(path)
+            image.load()
+            self.img_cache[path]=image
+        else:
+            image=self.img_cache[path]
+        
+     
         encoded_lab=torch.zeros(len(self.domains), dtype=torch.float32)
         encoded_lab[label]=1
         #image=self.hsv_color_change(image,0.5)
@@ -136,9 +145,9 @@ def get_loader(domains,image_dir, crop_size=178, image_size=128,
        transform.extend([T.ColorJitter(brightness=0.2, contrast=0.1, saturation=0.2, hue=0.1), T.RandomHorizontalFlip(), T.RandomAffine(degrees = 2)])
     
     # transform.append(T.CenterCrop(crop_size))
-    transform.append(T.Resize(image_size))
+    transform.append(T.Resize(image_size, interpolation=Image.LANCZOS))
     transform.append(T.ToTensor())
-    transform.append(T.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5)))
+    transform.append(T.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5),inplace=True))
     transform = T.Compose(transform)
 
     hold_out_size= 2 if mode == 'train' else 0
