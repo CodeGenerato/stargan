@@ -68,7 +68,7 @@ if __name__ == '__main__':
     # 95 skoda
     # 77 merceds 
     # 81 bmw 
-    # 11 volvo
+    # 111 volvo
     # 162
     # 158 citroen
     # 157 chevrolet
@@ -107,7 +107,7 @@ if __name__ == '__main__':
     parser.add_argument('--use_tensorboard', type=str2bool, default=True)
 
     # Directories.
-    parser.add_argument('--image_dir', type=str, default='/home/nico/Dokumente/Entwicklung/Uni/HLCV_Data/comp_cars/ResizedData')
+    parser.add_argument('--image_dir', type=str, default='/home/nico/Dokumente/Entwicklung/Uni/HLCV_Data/comp_cars/EnhancedDataset')
     parser.add_argument('--log_dir', type=str, default='stargan/logs')
     parser.add_argument('--model_save_dir', type=str, default='stargan/models')
     parser.add_argument('--sample_dir', type=str, default='stargan/samples')
