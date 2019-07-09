@@ -29,13 +29,12 @@ def classify(imageloc, net, mat) :
     v2 = np.sum(u2)/(256*256)
     v3 = np.sum(u3)/(256*256)
 
-    blob = cv2.dnn.blobFromImage(cv2.resize(frame, (224, 224)), 1, (224, 224), (v1, v2, v3))
+    blob = cv2.dnn.blobFromImage(cv2.resize(frame, (224, 224)), 1, (224, 224))
     net.setInput(blob)
     detections = net.forward()
 
     res = np.where(detections[0] == np.amax(detections[0]))
     print("confidence " + str(np.amax(detections[0])) + " make " + str(mat['make_model_names'][res]))
-
 
 
 ap = argparse.ArgumentParser()
