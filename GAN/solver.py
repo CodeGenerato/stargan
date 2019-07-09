@@ -71,9 +71,9 @@ class Solver(object):
         self.G = Generator(self.g_conv_dim, self.c_dim, self.g_repeat_num)
         self.D = Discriminator(self.image_size, self.d_conv_dim, self.c_dim, self.d_repeat_num) 
       
-        regularize=0.001
+        regularize=0
         self.g_optimizer = torch.optim.Adam(self.G.parameters(), self.g_lr, [self.beta1, self.beta2])
-        self.d_optimizer = torch.optim.Adam(self.D.parameters(), self.d_lr, [self.beta1, self.beta2], weight_decay=regularize)
+        self.d_optimizer = torch.optim.Adam(self.D.parameters(), self.d_lr, [self.beta1, self.beta2],weight_decay=regularize)
         self.print_network(self.G, 'G')
         self.print_network(self.D, 'D')
             
