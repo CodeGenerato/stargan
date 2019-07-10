@@ -1,0 +1,15 @@
+DESCRIPTION: Changed data augmentation
+Domains: (BMW, Mercedes, Audi, Skoda, Citroen)
+
+Data augmentation:
+T.ColorJitter(brightness=0.2, contrast=0.1, saturation=0.2, hue=0.2), T.RandomHorizontalFlip()
+
+Cropped to extended bounding boxes preserving aspect ratios of cars, resized to 256
+Lanczos resizing for final 256 -> 128
+Removed inconsistent imgs from all domains
+
+
+RESULT IMAGES:
+Google drive folder: run7
+RESULT MODELS:
+run7 (to be moved to server)
