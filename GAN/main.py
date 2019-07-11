@@ -78,8 +78,8 @@ if __name__ == '__main__':
                         default=[77,81,78,95,158,111,157,73]) 
 
     parser.add_argument('--c_dim', type=int, default=8, help='dimension of domain labels (1st dataset)')
-    parser.add_argument('--crop_size', type=int, default=128, help='crop size dataset')
-    parser.add_argument('--image_size', type=int, default=128, help='image resolution')
+    parser.add_argument('--crop_size', type=int, default=256, help='crop size dataset')
+    parser.add_argument('--image_size', type=int, default=256, help='image resolution')
     parser.add_argument('--g_conv_dim', type=int, default=64, help='number of conv filters in the first layer of G')
     parser.add_argument('--d_conv_dim', type=int, default=64, help='number of conv filters in the first layer of D')
     parser.add_argument('--g_repeat_num', type=int, default=6, help='number of residual blocks in G')
