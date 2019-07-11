@@ -1,13 +1,12 @@
-DESCRIPTION: Changed data augmentation
+DESCRIPTION: No resizing
 Domains:  merc,bmw,audi,skoda,citroen,chevrolet,vw,volvo 
 
 Data augmentation:
 transform.extend([T.ColorJitter(brightness=0.2, contrast=0.1, saturation=0.2, hue=0.1), T.RandomHorizontalFlip()])
 
-
 Cropped to extended bounding boxes preserving aspect ratios of cars, resized to 256
-Lanczos resizing for final 256 -> 128
 Removed inconsistent imgs from merc, bmw, audi, skoda, volvo
+
 
 RESULT IMAGES:
 RESULT MODELS:

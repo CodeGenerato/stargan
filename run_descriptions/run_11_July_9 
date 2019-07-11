@@ -1,4 +1,4 @@
-DESCRIPTION: Changed data augmentation
+DESCRIPTION: Regularisation
 Domains: (BMW, Mercedes, Audi, Skoda, Citroen)
 
 Data augmentation:
@@ -11,6 +11,4 @@ Removed inconsistent imgs from all domains
 
 
 RESULT IMAGES:
-Google drive folder: run10
 RESULT MODELS:
-run10 (to be moved to server)

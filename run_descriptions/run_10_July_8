@@ -1,4 +1,4 @@
-DESCRIPTION: Changed data augmentation
+DESCRIPTION: SAME AS 9
 Domains: (BMW, Mercedes, Audi, Skoda, Citroen)
 
 Data augmentation:
@@ -10,6 +10,4 @@ Removed inconsistent imgs from all domains
 
 
 RESULT IMAGES:
-Google drive folder: run7
 RESULT MODELS:
-run7 (to be moved to server)
