@@ -73,11 +73,14 @@ if __name__ == '__main__':
     # 158 citroen
     # 157 chevrolet
     # 73 vw
+    # 122 ford
+    # 118 hyunday
+    
     
     parser.add_argument('--domains', '--list', nargs='+', help='domains of car data set',
-                        default=[77,81,78,95,158,73]) 
+                        default=[77,81,78,95,158,111,157,73,122,118]) 
 
-    parser.add_argument('--c_dim', type=int, default=6, help='dimension of domain labels (1st dataset)')
+    parser.add_argument('--c_dim', type=int, default=10 , help='dimension of domain labels (1st dataset)')
     parser.add_argument('--crop_size', type=int, default=128, help='crop size dataset')
     parser.add_argument('--image_size', type=int, default=128, help='image resolution')
     parser.add_argument('--g_conv_dim', type=int, default=64, help='number of conv filters in the first layer of G')
@@ -108,7 +111,7 @@ if __name__ == '__main__':
     parser.add_argument('--use_tensorboard', type=str2bool, default=True)
 
     # Directories.
-    parser.add_argument('--image_dir', type=str, default='/home/nico/Dokumente/Entwicklung/Uni/HLCV_Data/comp_cars/EnhancedDataset')
+    parser.add_argument('--image_dir', type=str, default='/home/nico/ResizedData')
     parser.add_argument('--log_dir', type=str, default='stargan/logs')
     parser.add_argument('--model_save_dir', type=str, default='stargan/models')
     parser.add_argument('--sample_dir', type=str, default='stargan/samples')
