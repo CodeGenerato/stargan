@@ -9,16 +9,16 @@ trainLoc = '/media/shadowwalker/DATA/comp-cars/dataset/data/train_test_split/cla
 ImageLoc = "/media/shadowwalker/DATA/comp-cars/dataset/data/image/"
 
 NameDict =	{
+  "4" : "Citroen",
   "78" : "Audi",
   "81" : "BWM",
   "77" : "Benz",
   "73" : "Volkswagen",
-  "4" : "Citroen",
   "95" : "Skoda",
   "111" : "Volvo"
 }
 
-arr = ['78', '81', '77', '73', '4', '95', '111']
+arr = ['4', '78', '81', '77', '73', '95', '111']
 
 
 total = 0
@@ -43,7 +43,7 @@ with open(trainLoc,'rb') as f:
 for x in img :
     check = x.split('/')
     for i in range(len(arr)) :
-        if (arr[i] in check[0]) :
+        if (arr[i] == check[0]) :
             fileloc = ImageLoc + x
             frame = cv2.imread(fileloc)
             blob = cv2.dnn.blobFromImage(cv2.resize(frame, (224, 224)), 1, (224, 224))
@@ -53,7 +53,9 @@ for x in img :
             out = str(mat['make_model_names'][res])
             total = total + 1
             if (NameDict[arr[i]] in out) :
-                  correct = correct + 1
+                correct = correct + 1
+            elif (NameDict[arr[i]] == "Citroen" and "DS" in out) :
+                correct = correct + 1
 
 print(correct, total)
-
+  
