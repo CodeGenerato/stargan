@@ -1,0 +1,9 @@
+DESCRIPTION: Baseline
+Domains:  merc,bmw
+
+Cropped to extended bounding boxes preserving aspect ratios of cars, resized to 256
+Removed inconsistent imgs from merc, bmw, audi, skoda, volvo
+
+
+RESULT IMAGES:
+RESULT MODELS:
