@@ -1,0 +1,13 @@
+DESCRIPTION: No resizing, more iterations
+Domains:  merc,bmw,audi,skoda,citroen,chevrolet,vw,volvo 
+
+Data augmentation:
+transform.extend([T.ColorJitter(brightness=0.2, contrast=0.1, saturation=0.2, hue=0.1), T.RandomHorizontalFlip()])
+
+300k iterations
+Cropped to extended bounding boxes preserving aspect ratios of cars, resized to 256
+Removed inconsistent imgs from merc, bmw, audi, skoda, volvo
+
+
+RESULT IMAGES:
+RESULT MODELS:
