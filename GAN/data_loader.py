@@ -144,7 +144,7 @@ def get_loader(domains,image_dir, crop_size=178, image_size=128,
     transform.append(T.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5),inplace=True))
     transform = T.Compose(transform)
 
-    hold_out_size= 2 if mode == 'train' else 0
+    hold_out_size= 0 if mode == 'train' else 0
     dataset = CarDataset(domains,image_dir, transform, hold_out_size=hold_out_size)
     data_loader = data.DataLoader(dataset=dataset,
                                   batch_size=batch_size,
